@@ -47,6 +47,7 @@ Route::controller(MoviesController::class)->name("movie")->group(function() {
     Route::get("/movies/details/{id}", "details")->name("Details");
     Route::post("/movies/search", "search")->name("Search");
 });
+// Route::view("/movies/details", "movieDetails");
 
 Route::controller(TvController::class)->name("tv")->group(function(){
     Route::get("/tv", "popular")->name("Popular");

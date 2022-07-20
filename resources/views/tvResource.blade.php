@@ -17,7 +17,7 @@
                             </a>
                             <div class="mt-2 flex flex-row text-sm justify-between">
                                 <a href="#">
-                                    <h5 class="mb-2 text-lg font-bold tracking-tight text-gray-200 dark:text-white">{{ $value["original_name"] }}
+                                    <h5 class="mb-2 text-lg font-bold tracking-tight text-gray-200 dark:text-white">{{ $value["title"] }}
                                     </h5>
                                 </a>
                                 <div class="flex">

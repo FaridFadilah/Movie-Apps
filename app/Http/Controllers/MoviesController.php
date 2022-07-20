@@ -19,7 +19,7 @@ class MoviesController extends Controller{
         ];
 
         // dd($latest);
-        return view("resource", $array);
+        return view("movieResource", $array);
     }
     public function popular(){
         $token = HTTP::withToken(config("services.tmdb.token"));
@@ -34,7 +34,7 @@ class MoviesController extends Controller{
         ];
 
         // dd($data);
-        return view("resource", $array);
+        return view("movieResource", $array);
     }
     public function topRated(){
         $token = HTTP::withToken(config("services.tmdb.token"));
@@ -49,15 +49,25 @@ class MoviesController extends Controller{
         ];
 
         // dd($data);
-        return view("resource", $array);
+        return view("movieResource", $array);
     }
     public function details($id){
         $token = HTTP::withToken(config("services.tmdb.token"));
-        $getData = $token->get("https://api.themoviedb.org/3/movie/" . $id);
+        $getData = $token->get("https://api.themoviedb.org/3/movie/" . $id)->json();
+        $dataGenre = $token->get("https://api.themoviedb.org/3/genre/movie/list")->json()["genres"];
+        $genres = collect($dataGenre)->mapWithKeys(
+            fn ($genre) => [$genre["id"] => $genre["name"]]);
+        $collection = $token->get("https://api.themoviedb.org/3/collection/" . $getData["belongs_to_collection"]["id"])->json();
 
-        return view("details.blade.php", [
-            "Data" => $getData,
-        ]);
+        // dump($collection);
+        $array = [
+            "title" => $getData["original_title"],
+            "data" => $getData,
+            "genres" => $genres,
+            "collection" => $collection
+        ];
+
+        return view("movieDetails", $array);
     }
     public function search(SearchRequest $search){
         $validated = $search->validated();
@@ -65,11 +75,12 @@ class MoviesController extends Controller{
         $token = HTTP::withToken(config("services.tmdb.token"));
         $getData = $token->get("https://api.themoviedb.org/3/search/multi?query=" . $validated["search"])->json();
         // dd($getData);
+        
         $data =  [
             "title" => "Movie Search",
             "data" => $getData
         ];
-        return view("resource", $data);
+        return view("movieResource", $data);
     }
 
     public function trendings(){
@@ -83,6 +94,6 @@ class MoviesController extends Controller{
             "data" => $getData,
             "genre" => $genre,
         ];
-        return view("resource", $array);
+        return view("movieResource", $array);
     }
 }
