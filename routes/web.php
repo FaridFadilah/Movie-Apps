@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TvController;
 use App\Http\Controllers\MoviesController;
+use App\Http\Controllers\SearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,14 +41,14 @@ Route::get("/tags", function(){
 
 })->name("Tags");
 
+Route::get("/search", [SearchController::class, "search"])->name("Search");
+
 Route::controller(MoviesController::class)->name("movie")->group(function() {
     Route::get("/movies", "popular")->name("Popular");
     Route::get("/movies/trendings", "trendings")->name("Trending");
-    Route::get("/movies/upcoming", "upcoming")->name("Upcoming");
+    Route::get("/movies/upcomings", "upcoming")->name("Upcoming");
     Route::get("/movies/details/{id}", "details")->name("Details");
-    Route::post("/movies/search", "search")->name("Search");
 });
-// Route::view("/movies/details", "movieDetails");
 
 Route::controller(TvController::class)->name("tv")->group(function(){
     Route::get("/tv", "popular")->name("Popular");

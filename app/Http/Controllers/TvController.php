@@ -13,21 +13,48 @@ class TvController extends Controller{
         // dd($getData);
 
         $array = [
-            "title" => "Movie Upcoming",
+            "title" => "Movie Popular",
             "data" => $getData,
             "genre" => $genres
         ];
 
         return view("resource", $array);
     }
-    public function search(){
+    public function Details($id){
         $token = HTTP::withToken(config("services.tmdb.token"));
-        $getData = $token->get("https://api.themoviedb.org/3/search/tv")->json();
+        $getData = $token->get("https://api.themoviedb.org/3/tv/" . $id)->json();
         $genre = $token->get("https://api.themoviedb.org/3/genre/tv/list")->json()["genres"];
         $genres = collect($genre)->mapWithKeys(fn($genres) => [$genres["id"] => $genres["name"]]);
+        // dd($getData);
+        $getData["release_date"] = $getData["first_air_date"];
+        $getData["original_title"] = $getData["name"];
         $array = [
-            "title" => "Tv Series Search",
-            "data" => $getData
+            "title" => $getData["original_name"],
+            "data" => $getData,
+            "genres" => $genres,
+        ];
+        return view("details", $array);
+    }
+    public function Trendings(){
+        $token = HTTP::withToken(config("services.tmdb.token"));
+        $getData = $token->get("https://api.themoviedb.org/3/trending/tv/week")->json();
+
+        $array = [
+            "title" => "Tv Series trending",
+            "data" => $getData,
+            // "genre" => $genre,
+        ];
+        return view("resource", $array);
+    }
+    public function upcoming(){
+        $token = HTTP::withToken(config("services.tmdb.token"));
+        $getData = $token->get("https://api.themoviedb.org/3/tv/upcoming")->json();
+
+        dd($getData);
+        $array = [
+            "title" => "Tv Series trending",
+            "data" => $getData,
+            // "genre" => $genre,
         ];
         return view("resource", $array);
     }

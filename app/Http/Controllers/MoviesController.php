@@ -19,13 +19,14 @@ class MoviesController extends Controller{
         ];
 
         // dd($latest);
-        return view("movieResource", $array);
+        return view("resource", $array);
     }
     public function popular(){
         $token = HTTP::withToken(config("services.tmdb.token"));
-        $data = $token->get("https://api.themoviedb.org/3/movie/popular?region=")->json();
+        $data = $token->get("https://api.themoviedb.org/3/movie/popular")->json();
         $genre = $token->get("https://api.themoviedb.org/3/genre/movie/list")->json()["genres"];
         $genres = collect($genre)->mapWithKeys(fn($genres) => [$genres["id"] => $genres["name"]]);
+        // dd($data);
 
         $array = [
             "title" => "Movie Popular",
@@ -34,7 +35,7 @@ class MoviesController extends Controller{
         ];
 
         // dd($data);
-        return view("movieResource", $array);
+        return view("resource", $array);
     }
     public function topRated(){
         $token = HTTP::withToken(config("services.tmdb.token"));
@@ -49,7 +50,7 @@ class MoviesController extends Controller{
         ];
 
         // dd($data);
-        return view("movieResource", $array);
+        return view("resource", $array);
     }
     public function details($id){
         $token = HTTP::withToken(config("services.tmdb.token"));
@@ -67,20 +68,7 @@ class MoviesController extends Controller{
             "collection" => $collection
         ];
 
-        return view("movieDetails", $array);
-    }
-    public function search(SearchRequest $search){
-        $validated = $search->validated();
-
-        $token = HTTP::withToken(config("services.tmdb.token"));
-        $getData = $token->get("https://api.themoviedb.org/3/search/multi?query=" . $validated["search"])->json();
-        // dd($getData);
-        
-        $data =  [
-            "title" => "Movie Search",
-            "data" => $getData
-        ];
-        return view("movieResource", $data);
+        return view("details", $array);
     }
 
     public function trendings(){
@@ -94,6 +82,6 @@ class MoviesController extends Controller{
             "data" => $getData,
             "genre" => $genre,
         ];
-        return view("movieResource", $array);
+        return view("resource", $array);
     }
 }

@@ -7,12 +7,24 @@
             <div class="container">
             <x-breadcrumb/>
             <div class="p-3 pt-10 mx-auto flex-col flex">
-                <h2 class="inline-block mb-2 text-3xl font-extrabold tracking-tight text-gray-200 dark:text-gray-200">Latest</h2>
+                <h2 class="inline-block mb-2 text-3xl font-extrabold tracking-tight text-gray-200 dark:text-gray-200">{{ $title }}</h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
-                    @foreach ($data["results"] as $num => $value)
+                @foreach ($data["results"] as $num => $value)
+                    @If(request()->is("search"))
+                        @if($value["media_type"] == "tv")
+                            @php
+                                $value["title"] = $value["original_name"];
+                            @endphp
+                        @endif
+                    @endif
+                    @if(request()->is("tv"))
+                            @php
+                                $value["title"] = $value["original_name"];
+                            @endphp
+                    @endif
                     <div class="mt-8">
                         <div class="max-w-sm bg-transparent dark:bg-gray-800 dark:border-gray-700">
-                            <a href="">
+                            <a href="{{ request()->is("movies") ? route("movieDetails", $value["id"]) : route("tvDetails", $value["id"]) }}">
                                 <img class="rounded-lg hover:shadow-lg hover:shadow-black" src="{{ "https://image.tmdb.org/t/p/w500/".$value["poster_path"] }}" alt="" />
                             </a>
                             <div class="mt-2 flex flex-row text-sm justify-between">

@@ -26,7 +26,7 @@
                     @if($movie == 4) @break @endif
                     <div class="mt-8">
                         <div class="max-w-sm bg-transparent dark:bg-gray-800 dark:border-gray-700">
-                            <a href="">
+                            <a href="{{ route("movieDetails", $value["id"]) }}">
                                 <img class="rounded-lg hover:shadow-lg hover:shadow-black" src="{{ "https://image.tmdb.org/t/p/w500/" . $value["poster_path"] }}" alt="" />
                             </a>
                             <div class="mt-2 flex flex-row text-sm justify-between">
@@ -63,7 +63,7 @@
                     @if($data == 5) @break @endif
                     <div class="mt-8">
                         <div class="max-w-sm bg-transparent dark:bg-gray-800 dark:border-gray-700">
-                            <a href="">
+                            <a href="{{ route("tvDetails", $value["id"]) }}">
                                 <img class="rounded-lg hover:shadow-lg hover:shadow-black" src="{{ "https://image.tmdb.org/t/p/w500/" . $value["poster_path"] }}" alt="" />
                             </a>
                             <div class="mt-2 flex flex-row text-sm justify-between">
@@ -100,7 +100,7 @@
                     @if($data == 5) @break @endif
                     <div class="mt-8">
                         <div class="max-w-sm bg-transparent dark:bg-gray-800 dark:border-gray-700">
-                            <a href="">
+                            <a href="{{-- route("upcomingDetails",$value["id"]) --}}">
                                 <img class="rounded-lg hover:shadow-lg hover:shadow-black" src="{{ "https://image.tmdb.org/t/p/w500/" . $value["poster_path"] }}" alt="" />
                             </a>
                             <div class="flex flex-row justify-between mt-2">

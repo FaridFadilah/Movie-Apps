@@ -38,6 +38,7 @@
               </div>
             </div>
           </section>
+          @if(request()->is("movies/details/" . $data["id"]))
           <section class="bg-gray-800">
             <div class="container p-3 mx-auto">
                 <h2 class="inline-block mb-2 text-3xl font-extrabold tracking-tight text-blue-300 dark:text-gray-200">movie Recomended </h2>
@@ -60,5 +61,6 @@
                 </div>
             </div>
         </section>
+        @endif
     </x-slot>
 </x-app-layout>
